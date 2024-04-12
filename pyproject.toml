@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "my-poc"
+version = "0.1.0"
+description = "a poc for import shipment service"
+authors = ["Tzu-Hui Yeh <tzu-hui.yeh@gofreight.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "import_service_poc"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^5.0.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
