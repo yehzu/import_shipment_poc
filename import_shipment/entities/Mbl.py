@@ -3,9 +3,9 @@ from datetime import datetime
 
 
 class Mbl:
-    mbl_number: str
-    vessel: str
-    eta: datetime
-    trade_partner: str
+    mbl_number: str = ""
+    vessel: str = ""
+    eta: datetime = ""
+    trade_partner: str = ""
     # and other business domain fields
 
