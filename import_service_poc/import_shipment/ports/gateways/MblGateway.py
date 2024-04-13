@@ -7,6 +7,3 @@ class MblGateway:
 
     def create_shipment(self, mbl: Mbl):
         pass
-
-    def find_most_similar(self, tenant: str, trade_partner: str):
-        pass
