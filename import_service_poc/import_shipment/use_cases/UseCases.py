@@ -1,10 +1,18 @@
-from import_shipment. ports.gateways.MblGateway import MblGateway
-from import_shipment. ports.gateways.TradePartnerGateway import TradePartnerGateway
-from import_shipment. ports.in_bound.ImportMbl import ImportMbl
-from import_shipment. ports.in_bound.PayloadInterpreter import PayloadInterpreter
-from import_shipment. ports.out_bound.ObImportMblResponse import ObImportMblResponse
-from import_shipment. ports.out_bound.ImportMblResult import ImportMblResult
-from import_shipment. use_cases.TradePartnerMapper import TradePartnerMapper
+from import_shipment.ports.gateways.MblGateway import MblGateway
+from import_shipment.ports.gateways.TradePartnerGateway import TradePartnerGateway
+from import_shipment.ports.in_bound.ImportMbl import ImportMbl
+from import_shipment.ports.in_bound.PayloadInterpreter import PayloadInterpreter
+from import_shipment.ports.out_bound.ObImportMblResponse import ObImportMblResponse
+from import_shipment.ports.out_bound.ImportMblResult import ImportMblResult
+from import_shipment.use_cases.TradePartnerMapper import TradePartnerMapper
+
+
+class InputInvalidException:
+    pass
+
+
+class InternalServiceException:
+    pass
 
 
 class UseCases(ImportMbl):
@@ -12,7 +20,11 @@ class UseCases(ImportMbl):
     def import_mbl(self, tenant: str, import_mbl_payload: str, payload_interpreter: PayloadInterpreter,
                    mbl_gateway: MblGateway, trade_partner_gateway: TradePartnerGateway, presenter: ImportMblResult):
 
-        mbl = payload_interpreter.interpret_payload(import_mbl_payload)
+        try:
+            mbl = payload_interpreter.interpret_payload(import_mbl_payload)
+        except:
+            print("Error interpreting payload")
+            raise InputInvalidException
 
         status = "success"
         # business logic put here
@@ -26,7 +38,7 @@ class UseCases(ImportMbl):
                 mbl_gateway.create_shipment(mbl)
             except:
                 print("Error creating")
-                status = "fail"
+                raise InternalServiceException
 
         ob_resp = ObImportMblResponse()
         ob_resp.mbl_number = mbl.mbl_number

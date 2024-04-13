@@ -1,6 +1,6 @@
 from import_shipment.entities.Mbl import Mbl
 from import_shipment.ports.in_bound.PayloadInterpreter import PayloadInterpreter
-from xml.dom.minidom import parse
+from xml.dom.minidom import parseString
 
 
 class FastProXmlV1Adapter(PayloadInterpreter):
@@ -8,10 +8,8 @@ class FastProXmlV1Adapter(PayloadInterpreter):
         super().interpret_payload(payload)
         # convert fast pro protocol to MBL class here
         # for example
-        xml = parse(payload)
+        xml = parseString(payload)
         mbl = Mbl()
-        mbl.mbl_number = xml.getElementsByTagName('number')
-        mbl.vessel = xml.getElementsByTagName('ves_name')
-        mbl.trade_partner = xml.getElementsByTagName('tp')
+        mbl.mbl_number = xml.getElementsByTagName('name')[0].firstChild.nodeValue
 
         return mbl

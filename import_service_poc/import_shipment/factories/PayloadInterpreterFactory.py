@@ -5,7 +5,7 @@ from import_shipment.adapters.FastProXmlV1Adapter import FastProXmlV1Adapter
 class PayloadInterpreterFactory():
     @staticmethod
     def get(adapter_type="fake-local-dev"):
-        if adapter_type == "fast-pro-xml-vq":
+        if adapter_type == "fast-pro-xml-v1":
             return FastProXmlV1Adapter()
         if adapter_type == "fake-local-dev":
             return FakePayloadInterpreter()
