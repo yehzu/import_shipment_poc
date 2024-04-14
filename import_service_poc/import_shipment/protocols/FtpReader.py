@@ -23,7 +23,7 @@ class FtpReader:
         for filename in ftp.nlst():  # Iterate over files in the directory
             file_in_memory = self.read_file_in_memory(ftp, filename)
 
-            file_handler(file_in_memory)
+            file_handler(file_in_memory, filename)
             # Process the file contents (now in file_in_memory)
             print("Contents of", filename)
             print(file_in_memory.read().decode())  # Example: Read and print as text
