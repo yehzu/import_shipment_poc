@@ -2,7 +2,7 @@ from import_shipment.factories.MblGatewayFactory import MblGatewayFactory
 from import_shipment.factories.PayloadInterpreterFactory import PayloadInterpreterFactory
 from import_shipment.factories.TradePartnerGatewayFactory import TradePartnerGatewayFactory
 from import_shipment.presenters.JsonPresenter import JsonPresenter
-from import_shipment.use_cases.UseCases import UseCases
+from import_shipment.factories.ImportShipmentUseCaseFactory import ImportShipmentUseCaseFactory
 
 
 # Create your views here.
@@ -19,7 +19,7 @@ def import_fast_pro_xml_v1(request):
 
     presenter = JsonPresenter()
 
-    usecase = UseCases()
+    usecase = ImportShipmentUseCaseFactory.get(tenant, "office")
     usecase.import_mbl(tenant, mbl_payload, interpreter, mbl_repo, tp_repo, presenter)
 
     return presenter.get_view_model()
