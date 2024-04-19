@@ -4,7 +4,7 @@ from import_shipment.adapters.FakeMblAdapter import FakeMblAdapter
 from import_shipment.adapters.FakeTradePartnerAdapter import FakeTradePartnerAdapter
 from import_shipment.factories.PayloadInterpreterFactory import PayloadInterpreterFactory
 from import_shipment.presenters.JsonPresenter import JsonPresenter
-from import_shipment.use_cases.UseCases import UseCases
+from import_shipment.use_cases.ImportShipment import ImportShipment
 
 
 # Create your tests here.
@@ -17,5 +17,5 @@ class ImportShipmentTest(TestCase):
 
         submitter = JsonPresenter()
 
-        usecase = UseCases()
-        usecase.import_mbl("1", "fake payload", adapter, mbl_repo, tp_repo, submitter)
+        usecase = ImportShipment()
+        usecase.import_mbl("1", "fake payload")

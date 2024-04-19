@@ -1,5 +1,5 @@
 from import_shipment.entities.Mbl import Mbl
-from import_shipment.ports.in_bound.PayloadInterpreter import PayloadInterpreter
+from import_shipment.ports.gateways.PayloadInterpreter import PayloadInterpreter
 from xml.dom.minidom import parseString
 
 
