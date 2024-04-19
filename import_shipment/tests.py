@@ -15,7 +15,7 @@ class ImportShipmentTest(TestCase):
         mbl_repo = FakeMblAdapter()
         tp_repo = FakeTradePartnerAdapter()
 
-        submitter = JsonPresenter()
+        presenter = JsonPresenter()
 
-        usecase = ImportShipment()
+        usecase = ImportShipment(adapter, mbl_repo, tp_repo, presenter)
         usecase.import_mbl("1", "fake payload")

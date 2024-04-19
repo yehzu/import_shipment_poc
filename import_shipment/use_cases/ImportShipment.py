@@ -2,17 +2,8 @@ from import_shipment.ports.gateways.MblGateway import MblGateway
 from import_shipment.ports.gateways.TradePartnerGateway import TradePartnerGateway
 from import_shipment.ports.in_bound.IImportShipment import IImportShipment
 from import_shipment.ports.gateways.PayloadInterpreter import PayloadInterpreter
-from import_shipment.ports.out_bound.ObImportMblResponse import ObImportMblResponse
 from import_shipment.ports.out_bound.ImportMblResult import ImportMblResult
 from import_shipment.use_cases.TradePartnerMapper import TradePartnerMapper
-
-
-class InputInvalidException:
-    pass
-
-
-class InternalServiceException:
-    pass
 
 
 class ImportShipment(IImportShipment):
@@ -29,25 +20,21 @@ class ImportShipment(IImportShipment):
         try:
             mbl = self.payload_interpreter.interpret_payload(import_mbl_payload)
         except:
-            print("Error interpreting payload")
-            raise InputInvalidException
+            self.presenter.present_error("fail to parse input payload")
+            return
 
-        status = "success"
         # business logic put here
         if self.mbl_gateway.exist(mbl.mbl_number):
-            status = "existed"
-        else:
-            tp_mapper = TradePartnerMapper(self.trade_partner_gateway, tenant)
-            mbl.trade_partner = tp_mapper.map(mbl.trade_partner)
+            self.presenter.present_skip("MBL already exists")
+            return
 
-            try:
-                self.mbl_gateway.create_shipment(mbl)
-            except:
-                print("Error creating")
-                raise InternalServiceException
+        tp_mapper = TradePartnerMapper(self.trade_partner_gateway, tenant)
+        mbl.trade_partner = tp_mapper.map(mbl.trade_partner)
 
-        ob_resp = ObImportMblResponse()
-        ob_resp.mbl_number = mbl.mbl_number
-        ob_resp.status = status
-        # produce side effect to the world
-        self.presenter.present(ob_resp)
+        try:
+            self.mbl_gateway.create_shipment(mbl)
+        except:
+            self.presenter.present_error("fail to create MBL")
+            return
+
+        self.presenter.present("success")

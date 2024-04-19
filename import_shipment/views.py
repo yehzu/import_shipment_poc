@@ -18,8 +18,8 @@ def import_fast_pro_xml_v1(request):
     tp_repo = TradePartnerGatewayFactory.get()
 
     presenter = JsonPresenter()
+    usecase = ImportShipment(interpreter, mbl_repo, tp_repo, presenter)
 
-    usecase = ImportShipment()
     usecase.import_mbl(tenant, mbl_payload)
 
     return presenter.get_view_model()
