@@ -3,25 +3,38 @@ from shipment.ports.gateways.InvoiceGateway import InvoiceGateway
 from shipment.ports.gateways.ShipmentGateway import ShipmentGateway
 from shipment.ports.in_bound.IMyShipmentSummaries import IMyShipmentSummaries
 from shipment.ports.out_bound.IShipmentSummariesResult import IMyShipmentsResult
-from shipment.ports.out_bound.ShipmentSummary import ShipmentSummary
+from shipment.ports.out_bound.ShipmentSummary import ShipmentSummary, ContainerSummary, BalanceSummary
+
+
+def _transform_balance_summary_from(balance) -> BalanceSummary:
+    ib = BalanceSummary()
+
+    ib.currency = balance.currency
+    ib.amount = balance.amount
+    ib.last_paid_date = balance.last_paid_date
+
+    return ib
+def _transform_container_summary_from(container) -> ContainerSummary:
+    cs = ContainerSummary()
+
+    cs.container_number = container.container_number
+    cs.container_type = container.container_type
+    cs.container_status = container.container_status
+
+    return cs
 
 
 def _aggregate_shipment_summaries_from(shipment, balances, containers) -> ShipmentSummary:
+    #
     ss = ShipmentSummary()
 
     ss.mbl_number = shipment.mbl_number
-    ss.container_numbers = [c.container_number for c in containers]
-    ss.container_sizes = [c.size for c in containers]
 
-    ap = [b for b in balances if b.invoice_type == "ap"][0]
-    ss.ap_last_paid_date = ap.last_paid_date
-    ss.ap_balance_currency = ap.currency
-    ss.ap_balance_amount = ap.amount
+    ss.containers = [_transform_container_summary_from(c) for c in containers]
 
-    ar = [b for b in balances if b.invoice_type == "ar"][0]
-    ss.ar_last_paid_date = ar.last_paid_date
-    ss.ar_balance_currency = ar.currency
-    ss.ar_balance_amount = ar.amount
+    (ar, ap) = balances
+    ss.ar = _transform_balance_summary_from(ar)
+    ss.ap = _transform_balance_summary_from(ap)
 
     return ss
 
