@@ -4,12 +4,12 @@ from datetime import datetime
 
 class ContainerSummary:
     container_number: str
-    container_size: str
+    size: str
 
 
 class BalanceSummary:
     balance_amount: decimal
-    balance_currency: str
+    currency: str
     last_paid_date: datetime
 
 

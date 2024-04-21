@@ -2,7 +2,7 @@ from shipment.ports.gateways.ContainerGateway import ContainerGateway
 from shipment.ports.gateways.InvoiceGateway import InvoiceGateway
 from shipment.ports.gateways.ShipmentGateway import ShipmentGateway
 from shipment.ports.in_bound.IMyShipmentSummaries import IMyShipmentSummaries
-from shipment.ports.out_bound.IShipmentSummariesResult import IMyShipmentsResult
+from shipment.ports.out_bound.IShipmentSummariesResult import IShipmentSummariesResult
 from shipment.ports.out_bound.ShipmentSummary import ShipmentSummary, ContainerSummary, BalanceSummary
 
 
@@ -10,16 +10,17 @@ def _transform_balance_summary_from(balance) -> BalanceSummary:
     ib = BalanceSummary()
 
     ib.currency = balance.currency
-    ib.amount = balance.amount
+    ib.balance_amount = balance.amount
     ib.last_paid_date = balance.last_paid_date
 
     return ib
+
+
 def _transform_container_summary_from(container) -> ContainerSummary:
     cs = ContainerSummary()
 
     cs.container_number = container.container_number
-    cs.container_type = container.container_type
-    cs.container_status = container.container_status
+    cs.size = container.size
 
     return cs
 
@@ -41,7 +42,7 @@ def _aggregate_shipment_summaries_from(shipment, balances, containers) -> Shipme
 
 class GetMyShipmentSummaries(IMyShipmentSummaries):
     def __init__(self, shipment_gw: ShipmentGateway, invoice_gw: InvoiceGateway, container_gw: ContainerGateway,
-                 presenter: IMyShipmentsResult):
+                 presenter: IShipmentSummariesResult):
         self.shipment_gw = shipment_gw
         self.invoice_gw = invoice_gw
         self.container_gw = container_gw

@@ -1,7 +1,7 @@
 from shipment.ports.out_bound.ShipmentSummary import ShipmentSummary
 
 
-class IMyShipmentsResult:
+class IShipmentSummariesResult:
 
     def present(self, result: list[ShipmentSummary]):
         pass
