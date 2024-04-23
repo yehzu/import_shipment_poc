@@ -12,21 +12,3 @@ The module structure of this POC is that:
 * `port.out_bound`: interfaces for defining the output of the use case. It corresponds to the LOWER "\<I> BOUNDARY" and "RESPONSE MODEL" in Picture 1.
 * `presenters`: the implementations of port.out_bound, which able to produce side effects to the world. It corresponds to the "PRESENTER" in Picture 1.
 * `factories`: factories for creating adapters, presenters, and use_cases
-
-Refactor TODOs for this POC:
-- [ ] Move `port.in_bound.PayloadInterpreter` to `port.gateways` because it actually is a "gateway" that returning entities.
-- [ ] The interfaces in `port.in_bound` should not contains gateway interfaces. They should be passed into use_cases from the constructors.
-  ```python
-  # from 
-  def import_mbl(self, tenant: str, import_mbl_payload: str, payload_interpreter: PayloadInterpreter,
-                   mbl_gateway: MblGateway, trade_partner_gateway: TradePartnerGateway, presenter: ImportMblResult)
-  # to
-  def import_mbl(self, tenant: str, import_mbl_payload: str)
-  ```
-  and the constructor of use_case (implementation) should be:
-  ```python
-  # from 
-  class UseCases(ImportMbl):
-    def __init__(self, payload_interpreter: PayloadInterpreter, mbl_gateway: MblGateway, 
-      trade_partner_gateway: TradePartnerGateway, presenter: ImportMblResult)
-  ```
