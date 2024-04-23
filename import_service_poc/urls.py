@@ -17,9 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from import_shipment.views import import_fast_pro_xml_v1
+from import_shipment.views import import_shipment
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('shipment/fast-pro/xml/v1', import_fast_pro_xml_v1, name="import_shipment")
+    path('shipment/<str:vendor>/<str:format>/<str:version>', import_shipment, name="import_shipment"),
 ]

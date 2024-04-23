@@ -9,11 +9,11 @@ from import_shipment.use_cases.ImportShipment import ImportShipment
 
 
 # handler for route /shipment/fast-pro/xml/v1
-def import_fast_pro_xml_v1(request):
+def import_shipment(request, vendor, payload_format, version):
     tenant = "test tenant"  # or other way to get tenant, maybe in the header?
     mbl_payload = request.body  # or other way to get the payload (e.g. http body, or AS2 protocol)
 
-    interpreter = PayloadInterpreterFactory.get("fast-pro-xml-v1")
+    interpreter = PayloadInterpreterFactory.get(f'{vendor}-{payload_format}-{version}')
     mbl_repo = MblGatewayFactory.get()
     tp_repo = TradePartnerGatewayFactory.get()
 
