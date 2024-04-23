@@ -1,6 +1,4 @@
-from shipment.entities.Container import Container
-from shipment.entities.InvoiceBalance import InvoiceBalance
-from shipment.entities.Shipment import Shipment
+from shipment.entities.Shipment import Shipment, InvoiceBalance, Container
 from shipment.ports.gateways.ContainerGateway import ContainerGateway
 from shipment.ports.gateways.InvoiceGateway import InvoiceGateway
 from shipment.ports.gateways.ShipmentGateway import ShipmentGateway
