@@ -17,9 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from import_shipment.views import import_fast_pro_xml_v1
+from import_shipment.views import import_fast_pro_xml_v1, import_by_edi_over_as2
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('shipment/fast-pro/xml/v1', import_fast_pro_xml_v1, name="import_shipment")
+    path('shipment/fast-pro/xml/v1', import_fast_pro_xml_v1, name="import_shipment"),
+    path('shipment/edi/as2', import_by_edi_over_as2, name="import_shipment")
 ]
