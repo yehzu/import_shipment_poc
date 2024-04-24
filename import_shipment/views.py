@@ -1,25 +1,16 @@
-from import_shipment.factories.MblGatewayFactory import MblGatewayFactory
-from import_shipment.factories.PayloadInterpreterFactory import PayloadInterpreterFactory
-from import_shipment.factories.TradePartnerGatewayFactory import TradePartnerGatewayFactory
+from import_shipment.factories.ImportShipmentUsecaseFactory import ImportShipmentUsecaseFactory
 from import_shipment.presenters.JsonPresenter import JsonPresenter
-from import_shipment.use_cases.ImportShipment import ImportShipment
 
 
 # Create your views here.
 
 
 # handler for route /shipment/fast-pro/xml/v1
-def import_fast_pro_xml_v1(request):
+def import_shipment(request, vendor, payload_format, version):
     tenant = "test tenant"  # or other way to get tenant, maybe in the header?
     mbl_payload = request.body  # or other way to get the payload (e.g. http body, or AS2 protocol)
 
-    interpreter = PayloadInterpreterFactory.get("fast-pro-xml-v1")
-    mbl_repo = MblGatewayFactory.get()
-    tp_repo = TradePartnerGatewayFactory.get()
-
-    presenter = JsonPresenter()
-    usecase = ImportShipment(interpreter, mbl_repo, tp_repo, presenter)
-
+    usecase, presenter = ImportShipmentUsecaseFactory.get(tenant, vendor, payload_format, version)
     usecase.import_mbl(tenant, mbl_payload)
 
     return presenter.get_view_model()
