@@ -1,3 +1,4 @@
+from import_shipment.adapters.SqlLiteAdapter import SqlLiteAdapter
 from import_shipment.factories.MblGatewayFactory import MblGatewayFactory
 from import_shipment.factories.PayloadInterpreterFactory import PayloadInterpreterFactory
 from import_shipment.factories.TradePartnerGatewayFactory import TradePartnerGatewayFactory
@@ -15,10 +16,11 @@ def import_fast_pro_xml_v1(request):
 
     interpreter = PayloadInterpreterFactory.get("fast-pro-xml-v1")
     mbl_repo = MblGatewayFactory.get()
+    ur_repo = SqlLiteAdapter()
     tp_repo = TradePartnerGatewayFactory.get()
 
     presenter = JsonPresenter()
-    usecase = ImportShipment(interpreter, mbl_repo, tp_repo, presenter)
+    usecase = ImportShipment(interpreter, mbl_repo, tp_repo, ur_repo, presenter)
 
     usecase.import_mbl(tenant, mbl_payload)
 
