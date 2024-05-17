@@ -1,8 +1,8 @@
-from import_shipment.factories.MblGatewayFactory import MblGatewayFactory
-from import_shipment.factories.PayloadInterpreterFactory import PayloadInterpreterFactory
-from import_shipment.factories.TradePartnerGatewayFactory import TradePartnerGatewayFactory
-from import_shipment.presenters.JsonPresenter import JsonPresenter
-from import_shipment.use_cases.ImportShipment import ImportShipment
+from import_shipment.impl.factories.MblGatewayFactory import MblGatewayFactory
+from import_shipment.impl.factories.PayloadInterpreterFactory import PayloadInterpreterFactory
+from import_shipment.impl.factories.TradePartnerGatewayFactory import TradePartnerGatewayFactory
+from import_shipment.impl.presenters import JsonPresenter
+from import_shipment.impl.use_cases.ImportShipment import ImportShipment
 
 
 # Create your views here.

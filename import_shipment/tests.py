@@ -1,10 +1,10 @@
 from django.test import TestCase
 
-from import_shipment.adapters.FakeMblAdapter import FakeMblAdapter
-from import_shipment.adapters.FakeTradePartnerAdapter import FakeTradePartnerAdapter
-from import_shipment.factories.PayloadInterpreterFactory import PayloadInterpreterFactory
-from import_shipment.presenters.JsonPresenter import JsonPresenter
-from import_shipment.use_cases.ImportShipment import ImportShipment
+from import_shipment.impl.adapters.FakeMblAdapter import FakeMblAdapter
+from import_shipment.impl.adapters import FakeTradePartnerAdapter
+from import_shipment.impl.factories.PayloadInterpreterFactory import PayloadInterpreterFactory
+from import_shipment.impl.presenters import JsonPresenter
+from import_shipment.impl.use_cases.ImportShipment import ImportShipment
 
 
 # Create your tests here.
