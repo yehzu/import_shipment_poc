@@ -1,3 +1,4 @@
+from import_shipment.controllers.ImportShipmentController import ImportShipmentController
 from import_shipment.factories.MblGatewayFactory import MblGatewayFactory
 from import_shipment.factories.PayloadInterpreterFactory import PayloadInterpreterFactory
 from import_shipment.factories.TradePartnerGatewayFactory import TradePartnerGatewayFactory
@@ -10,6 +11,8 @@ from import_shipment.use_cases.ImportShipment import ImportShipment
 
 # handler for route /shipment/fast-pro/xml/v1
 def import_fast_pro_xml_v1(request):
+    # this function glue all the dependencies, which should belong to the framework/driver layer
+
     tenant = "test tenant"  # or other way to get tenant, maybe in the header?
     mbl_payload = request.body  # or other way to get the payload (e.g. http body, or AS2 protocol)
 
@@ -20,6 +23,7 @@ def import_fast_pro_xml_v1(request):
     presenter = JsonPresenter()
     usecase = ImportShipment(interpreter, mbl_repo, tp_repo, presenter)
 
-    usecase.import_mbl(tenant, mbl_payload)
+    controller = ImportShipmentController()
+    controller.handle(usecase, tenant, mbl_payload)
 
     return presenter.get_view_model()
