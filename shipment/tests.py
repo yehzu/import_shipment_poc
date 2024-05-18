@@ -1,7 +1,7 @@
 from django.test import TestCase
-from shipment.adapters.FakeAdapter import FakeAdapter
-from shipment.presenters.FakePresenter import FakePresenter
-from shipment.use_cases.GetMyShipmentSummaries import GetMyShipmentSummaries
+from shipment.impl.adapters.FakeAdapter import FakeAdapter
+from shipment.impl.presenters.FakePresenter import FakePresenter
+from shipment.impl.use_cases import GetMyShipmentSummaries
 
 
 # Create your tests here.
